@@ -24,6 +24,8 @@ public class Usuario {
     private Long id;
     
     private String nome;
+
+    private EnumTipoPessoa tipoPessoa;
     
     @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -32,6 +34,10 @@ public class Usuario {
     @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Telefone> telefones;
+
+    public Usuario() {
+        this.tipoPessoa = EnumTipoPessoa.FISICA;
+    }
 
     public Long getId() {
         return id;
@@ -65,6 +71,16 @@ public class Usuario {
         this.telefones = telefones;
     }
 
-    
+    public EnumTipoPessoa getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    public void setTipoPessoa(EnumTipoPessoa tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
+    }
+
+    public Long getIdVezes10() {
+        return id * 10;
+    }
     
 }

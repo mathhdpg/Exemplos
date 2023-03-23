@@ -26,10 +26,12 @@
 		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="270" height="30" uuid="857925e8-1449-4cf2-a2ce-1e0b4e36f915"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Rua: " + $F{rua}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="270" y="0" width="285" height="30" uuid="da7621b4-212a-431b-bcb0-600355abf77c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Rua: " + $F{cidade}]]></textFieldExpression>
 			</textField>
 		</band>

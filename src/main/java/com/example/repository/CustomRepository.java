@@ -9,18 +9,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CustomUsuarioRepository extends CustomRepository {
+public class CustomRepository extends GenericDao {
 
-    public CustomUsuarioRepository(EntityManager entityManager) {
+    public CustomRepository(EntityManager entityManager) {
         super(entityManager);
         
     }
-    public Page<Map<String, Object>> listaGenerica(Pageable pageable) {
-        String sql = ""
-        + "select usuario.id as id,"
-        + "       usuario.nome as nome"
-        + "  from usuario";
-
+    
+    public Page<Map<String, Object>> listaGenerica(String sql, Pageable pageable) {
         return this.executeNativeQuery(sql, pageable);
     }
+    
 }

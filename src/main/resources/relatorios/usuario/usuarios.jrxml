@@ -11,13 +11,16 @@
 	<field name="enderecos" class="java.util.List"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="telefones" class="java.util.List"/>
+	<field name="tipoPessoa" class="java.lang.Enum"/>
+	<field name="idVezes10" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
 		<band height="30" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="30" uuid="02575ed2-ae2e-4091-aa40-551b4b53fca7"/>
+				<reportElement x="0" y="0" width="555" height="30" uuid="02575ed2-ae2e-4091-aa40-551b4b53fca7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Usuarios]]></text>
 			</staticText>
 		</band>
@@ -26,10 +29,12 @@
 		<band height="88" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="100" height="30" uuid="80479cfa-da46-4e5a-8b07-f6e1bc857b91"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="100" y="0" width="100" height="30" uuid="5a68c036-6f2e-4ccb-a10b-c57938860bcc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<subreport>
@@ -42,6 +47,16 @@
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{telefones})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "usuario_telefone.jasper"]]></subreportExpression>
 			</subreport>
+			<textField>
+				<reportElement x="202" y="1" width="100" height="30" uuid="53be3cd4-6b1a-4e83-a216-1bd7c0eb0368"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipoPessoa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="100" height="30" uuid="c10442e2-3a59-49bf-ba9f-6cd33bd96dbd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{idVezes10}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>
