@@ -19,9 +19,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<columnHeader>
-		<band height="30" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="30" backcolor="#CBCAE6" uuid="02575ed2-ae2e-4091-aa40-551b4b53fca7"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" backcolor="#CCCCCC" uuid="02575ed2-ae2e-4091-aa40-551b4b53fca7"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -36,7 +36,7 @@
 	<detail>
 		<band height="88" splitType="Stretch">
 			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="135" height="30" backcolor="#CCCCCC" uuid="80479cfa-da46-4e5a-8b07-f6e1bc857b91"/>
+				<reportElement mode="Opaque" x="0" y="10" width="135" height="20" backcolor="#CCCCCC" uuid="80479cfa-da46-4e5a-8b07-f6e1bc857b91"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -47,7 +47,7 @@
 				<textFieldExpression><![CDATA["ID: " + $F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="135" y="0" width="136" height="30" backcolor="#CCCCCC" uuid="5a68c036-6f2e-4ccb-a10b-c57938860bcc"/>
+				<reportElement mode="Transparent" x="135" y="10" width="136" height="20" backcolor="#CCCCCC" uuid="5a68c036-6f2e-4ccb-a10b-c57938860bcc"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -58,17 +58,21 @@
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="30" width="555" height="28" uuid="20598788-86ab-4df4-a9fa-733546c1dc7a"/>
+				<reportElement x="0" y="30" width="555" height="28" isRemoveLineWhenBlank="true" uuid="20598788-86ab-4df4-a9fa-733546c1dc7a">
+					<printWhenExpression><![CDATA[$F{enderecos} != null && $F{enderecos}.size() > 0]]></printWhenExpression>
+				</reportElement>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{enderecos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "usuario_enderecos.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="58" width="555" height="30" uuid="226764a8-aa21-4c01-90f5-796102feae85"/>
+				<reportElement positionType="Float" x="0" y="58" width="555" height="30" isRemoveLineWhenBlank="true" uuid="226764a8-aa21-4c01-90f5-796102feae85">
+					<printWhenExpression><![CDATA[$F{telefones} != null && $F{telefones}.size() > 0]]></printWhenExpression>
+				</reportElement>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{telefones})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "usuario_telefone.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
-				<reportElement mode="Opaque" x="271" y="0" width="135" height="30" backcolor="#CCCCCC" uuid="53be3cd4-6b1a-4e83-a216-1bd7c0eb0368"/>
+				<reportElement mode="Transparent" x="271" y="10" width="135" height="20" backcolor="#CCCCCC" uuid="53be3cd4-6b1a-4e83-a216-1bd7c0eb0368"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -79,7 +83,7 @@
 				<textFieldExpression><![CDATA["Tipo: " + $F{tipoPessoa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="406" y="0" width="149" height="30" backcolor="#CCCCCC" uuid="db1585f5-7277-4e34-9c38-04d41a178106"/>
+				<reportElement mode="Transparent" x="406" y="10" width="149" height="20" backcolor="#CCCCCC" uuid="db1585f5-7277-4e34-9c38-04d41a178106"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>

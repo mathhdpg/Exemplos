@@ -6,9 +6,9 @@
 	</queryString>
 	<field name="numero" class="java.lang.String"/>
 	<columnHeader>
-		<band height="30" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="555" height="30" backcolor="#FFFFFF" uuid="cc3cfb5a-1a9e-4aa0-b73d-18dbe7653dd4"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" backcolor="#CCCCCC" uuid="cc3cfb5a-1a9e-4aa0-b73d-18dbe7653dd4"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
@@ -21,9 +21,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="555" height="30" uuid="601346e3-f190-445f-9ea1-52edcbfe2b55"/>
+				<reportElement x="0" y="0" width="555" height="20" uuid="601346e3-f190-445f-9ea1-52edcbfe2b55"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
