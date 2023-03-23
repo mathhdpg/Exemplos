@@ -30,16 +30,13 @@ import com.example.repository.UsuarioRepository;
 public class UsuarioController {
     
     private UsuarioRepository repository;
-    private UsuarioAcessoRepository usuarioAcessoRepository;
     private EnderecoRepository enderecoRepository;
     private TelefoneRepository telefoneRepository;
 
     public UsuarioController(UsuarioRepository repository,
-            UsuarioAcessoRepository usuarioAcessoRepository,
             EnderecoRepository enderecoRepository,
             TelefoneRepository telefoneRepository) {
         this.repository = repository;
-        this.usuarioAcessoRepository = usuarioAcessoRepository;
         this.enderecoRepository = enderecoRepository;
         this.telefoneRepository = telefoneRepository;
     }

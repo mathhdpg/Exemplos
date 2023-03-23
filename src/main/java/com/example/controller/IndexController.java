@@ -8,28 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.model.Usuario;
-import com.example.repository.CustomRepository;
 import com.example.repository.CustomUsuarioRepository;
 import com.example.repository.UsuarioRepository;
 
-@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class IndexController {
     
-    private UsuarioRepository repository;
     private CustomUsuarioRepository customUsuarioRepository;
 
-    public IndexController(
-                UsuarioRepository repository,
-                CustomUsuarioRepository customUsuarioRepository ) {
-        this.repository = repository;
+    public IndexController(CustomUsuarioRepository customUsuarioRepository ) {
         this.customUsuarioRepository = customUsuarioRepository;
     }
 
@@ -51,6 +42,7 @@ public class IndexController {
             System.out.println("INSERT INTO telefone (numero, usuario_id) VALUES ('1111111111', " + i + ");");
         }
     }
+
 
     @GetMapping("/usuarios/map/all")
     public ResponseEntity<Page<Map<String, Object>>> listaUsuariosMap(Pageable pageable) {
