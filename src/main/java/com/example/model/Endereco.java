@@ -20,7 +20,6 @@ public class Endereco {
     private Long id;
     
     private String rua;
-    
     private String cidade;
     
     @JsonBackReference

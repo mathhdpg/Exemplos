@@ -5,16 +5,16 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="numero" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
 	<columnHeader>
 		<band height="30" splitType="Stretch">
-			<rectangle>
-				<reportElement x="0" y="0" width="555" height="30" uuid="9b2c548b-2809-460c-a39d-5b0b2fe70def"/>
-			</rectangle>
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="30" uuid="cc3cfb5a-1a9e-4aa0-b73d-18dbe7653dd4"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="30" backcolor="#FFFFFF" uuid="cc3cfb5a-1a9e-4aa0-b73d-18dbe7653dd4"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Telefones]]></text>
 			</staticText>
@@ -24,6 +24,12 @@
 		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="555" height="30" uuid="601346e3-f190-445f-9ea1-52edcbfe2b55"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Telefone: " + $F{numero}]]></textFieldExpression>
 			</textField>

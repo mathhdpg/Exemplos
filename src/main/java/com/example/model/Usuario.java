@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -26,6 +28,10 @@ public class Usuario {
     private String nome;
 
     private EnumTipoPessoa tipoPessoa;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "acesso_id", referencedColumnName = "id")
+    private UsuarioAcesso acesso;
     
     @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
@@ -78,6 +84,16 @@ public class Usuario {
     public void setTipoPessoa(EnumTipoPessoa tipoPessoa) {
         this.tipoPessoa = tipoPessoa;
     }
+
+    public UsuarioAcesso getAcesso() {
+        return acesso;
+    }
+
+    public void setAcesso(UsuarioAcesso acesso) {
+        this.acesso = acesso;
+    }
+
+
 
     public Long getIdVezes10() {
         return id * 10;

@@ -52,17 +52,6 @@ public class IndexController {
         }
     }
 
-    @GetMapping("/usuarios/all")
-    public ResponseEntity<Page<Usuario>> listaUsuarios(Pageable pageable) {
-        try {
-            Page<Usuario> usuarios = repository.findAll(pageable);
-            return new ResponseEntity<>(usuarios, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/usuarios/map/all")
     public ResponseEntity<Page<Map<String, Object>>> listaUsuariosMap(Pageable pageable) {
         try {

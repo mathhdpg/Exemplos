@@ -7,16 +7,16 @@
 	</queryString>
 	<field name="rua" class="java.lang.String"/>
 	<field name="cidade" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
 	<columnHeader>
 		<band height="30">
-			<rectangle>
-				<reportElement x="1" y="0" width="554" height="30" uuid="2274893a-f1e0-47da-9f36-6b813a338eac"/>
-			</rectangle>
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="30" uuid="29592db6-ed4d-4813-a4ac-4a7fdb6d292a"/>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="30" backcolor="#FFFFFF" uuid="29592db6-ed4d-4813-a4ac-4a7fdb6d292a"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Endereços]]></text>
 			</staticText>
@@ -26,13 +26,25 @@
 		<band height="30" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="270" height="30" uuid="857925e8-1449-4cf2-a2ce-1e0b4e36f915"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Rua: " + $F{rua}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="270" y="0" width="285" height="30" uuid="da7621b4-212a-431b-bcb0-600355abf77c"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["Rua: " + $F{cidade}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Cidade: " + $F{cidade}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
