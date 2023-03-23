@@ -3,6 +3,8 @@ package com.example.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -34,23 +36,31 @@ public class RelatorioController {
         this.repository = repository;
     }
 
+    @GetMapping("/save/usuarios")
+    public ResponseEntity geraRelatorioLocal() {
+        try {
+            byte[] bytes = processaRelatorio();
+
+            File reportXml = ReportUtils.getFileFromResource("relatorios/usuario/usuarios.jrxml");
+
+            File pdfGerado = new File(reportXml.getAbsolutePath() + ".pdf");
+
+            FileOutputStream fos = new FileOutputStream(pdfGerado);
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
+            
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/usuarios.pdf")
     public ResponseEntity<ByteArrayResource> geraRelatorio() {
         try {
-            List<Usuario> usuarios = repository.findAll();
-            usuarios.forEach(u -> u.setTipoPessoa(EnumTipoPessoa.FISICA));
-
-            // caso seja necessário, pode compilar os jrxml
-            compilaRelatorios();
-            File jasper = ReportUtils.getFileFromResource("relatorios/usuario/usuarios.jasper");
-            InputStream fis = (InputStream) new FileInputStream(jasper);
-
-            String pathSubRelatorio = jasper.getParent() + "\\";
-
-            Map<String, Object> parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", pathSubRelatorio);
-
-            byte[] bytes = ReportUtils.createPDFReport(fis, parametros, usuarios);
+            byte[] bytes = processaRelatorio();
 
             ByteArrayResource resource = new ByteArrayResource(bytes);
             return ResponseEntity.ok()
@@ -60,6 +70,24 @@ public class RelatorioController {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private byte[] processaRelatorio() throws FileNotFoundException, JRException, IOException {
+        List<Usuario> usuarios = repository.findAll();
+        usuarios.forEach(u -> u.setTipoPessoa(EnumTipoPessoa.FISICA));
+
+        // caso seja necessário, pode compilar os jrxml
+        compilaRelatorios();
+        File jasper = ReportUtils.getFileFromResource("relatorios/usuario/usuarios.jasper");
+        InputStream fis = (InputStream) new FileInputStream(jasper);
+
+        String pathSubRelatorio = jasper.getParent() + "\\";
+
+        Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put("SUBREPORT_DIR", pathSubRelatorio);
+
+        byte[] bytes = ReportUtils.createPDFReport(fis, parametros, usuarios);
+        return bytes;
     }
 
     private void compilaRelatorios() throws FileNotFoundException, JRException {
