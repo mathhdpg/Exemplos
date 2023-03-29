@@ -42,38 +42,8 @@ public class RelatorioController {
 
     private UsuarioRepository repository;
 
-    // @Value("classpath:relatorios/usuario/usuarios.jrxml")
-    // private Resource resourceUsuarios;
-    
-    // @Value("classpath:relatorios/usuario/usuario_enderecos.jrxml")
-    // private Resource resourceEnderecos;
-
-    // @Value("classpath:relatorios/usuario/usuario_telefone.jrxml")
-    // private Resource resourceTelefones;
-
     public RelatorioController(UsuarioRepository repository) {
         this.repository = repository;
-    }
-
-    @GetMapping("/save/usuarios")
-    public ResponseEntity geraRelatorioLocal() {
-        try {
-            byte[] bytes = processaRelatorio();
-
-            File reportXml = ReportUtils.getFileFromResource("relatorios/usuario/usuarios.jrxml");
-
-            File pdfGerado = new File(reportXml.getAbsolutePath() + ".pdf");
-
-            FileOutputStream fos = new FileOutputStream(pdfGerado);
-            fos.write(bytes);
-            fos.flush();
-            fos.close();
-            
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/usuarios.pdf")
@@ -95,14 +65,20 @@ public class RelatorioController {
         List<Usuario> usuarios = repository.findAll();
         usuarios.forEach(u -> u.setTipoPessoa(EnumTipoPessoa.FISICA));
 
-        ClassPathResource resourceUsuarios = new ClassPathResource("relatorios/usuario/usuarios.jrxml");
-        ClassPathResource resourceEnderecos = new ClassPathResource("relatorios/usuario/usuario_enderecos.jrxml");
-        ClassPathResource resourceTelefones = new ClassPathResource("relatorios/usuario/usuario_telefone.jrxml");
+        // ClassPathResource resourceUsuarios = new ClassPathResource("relatorios/usuario/usuarios.jrxml");
+        // ClassPathResource resourceEnderecos = new ClassPathResource("relatorios/usuario/usuario_enderecos.jrxml");
+        // ClassPathResource resourceTelefones = new ClassPathResource("relatorios/usuario/usuario_telefone.jrxml");
+        // JasperReport relatorio = JasperCompileManager.compileReport(resourceUsuarios.getInputStream());
+        // JasperReport subRelatorioEndereco = JasperCompileManager.compileReport(resourceEnderecos.getInputStream());
+        // JasperReport subRelatorioTelefone = JasperCompileManager.compileReport(resourceTelefones.getInputStream());
 
-        JasperReport relatorio = JasperCompileManager.compileReport(resourceUsuarios.getInputStream());
-        JasperReport subRelatorioEndereco = JasperCompileManager.compileReport(resourceEnderecos.getInputStream());
-        JasperReport subRelatorioTelefone = JasperCompileManager.compileReport(resourceTelefones.getInputStream());
-        
+        ClassPathResource resourceUsuarios = new ClassPathResource("relatorios/usuario/usuarios.jasper");
+        ClassPathResource resourceEnderecos = new ClassPathResource("relatorios/usuario/usuario_enderecos.jasper");
+        ClassPathResource resourceTelefones = new ClassPathResource("relatorios/usuario/usuario_telefone.jasper");
+        JasperReport relatorio = (JasperReport) JRLoader.loadObject(resourceUsuarios.getInputStream());
+        JasperReport subRelatorioEndereco = (JasperReport) JRLoader.loadObject(resourceEnderecos.getInputStream());
+        JasperReport subRelatorioTelefone = (JasperReport) JRLoader.loadObject(resourceTelefones.getInputStream());
+
         Map<String, Object> parametros = new HashMap<String, Object>();
         parametros.put("subReportEnderecos", subRelatorioEndereco);
         parametros.put("subReportTelefones", subRelatorioTelefone);
@@ -112,5 +88,4 @@ public class RelatorioController {
 
         return exportReportToPdf;
     }
-
 }
