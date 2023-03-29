@@ -6,9 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -65,13 +68,15 @@ public class RelatorioController {
         List<Usuario> usuarios = repository.findAll();
         usuarios.forEach(u -> u.setTipoPessoa(EnumTipoPessoa.FISICA));
 
+        // Obter JasperReport compilando o .jrxml
         // ClassPathResource resourceUsuarios = new ClassPathResource("relatorios/usuario/usuarios.jrxml");
         // ClassPathResource resourceEnderecos = new ClassPathResource("relatorios/usuario/usuario_enderecos.jrxml");
         // ClassPathResource resourceTelefones = new ClassPathResource("relatorios/usuario/usuario_telefone.jrxml");
         // JasperReport relatorio = JasperCompileManager.compileReport(resourceUsuarios.getInputStream());
         // JasperReport subRelatorioEndereco = JasperCompileManager.compileReport(resourceEnderecos.getInputStream());
         // JasperReport subRelatorioTelefone = JasperCompileManager.compileReport(resourceTelefones.getInputStream());
-
+        
+        // Obter JasperReport carregando .jasper
         ClassPathResource resourceUsuarios = new ClassPathResource("relatorios/usuario/usuarios.jasper");
         ClassPathResource resourceEnderecos = new ClassPathResource("relatorios/usuario/usuario_enderecos.jasper");
         ClassPathResource resourceTelefones = new ClassPathResource("relatorios/usuario/usuario_telefone.jasper");
@@ -79,7 +84,16 @@ public class RelatorioController {
         JasperReport subRelatorioEndereco = (JasperReport) JRLoader.loadObject(resourceEnderecos.getInputStream());
         JasperReport subRelatorioTelefone = (JasperReport) JRLoader.loadObject(resourceTelefones.getInputStream());
 
+        // obter imagem local
+        // ClassPathResource imagem = new ClassPathResource("relatorios/usuario/naruto.png");
+        //InputStream fisImagem = imagem.getInputStream();
+
+        // obter imagem de uma url
+        URL url = new URL("https://4.bp.blogspot.com/-cgf6-E-rh5k/XGiXd-TBCdI/AAAAAAAAHuU/WE_N3mzjajkTMB7W9QWNSvQ1Ko-W23gcACLcBGAs/s320/2884_render_rendernarutosennin.png");
+        InputStream fisImagem = url.openStream();
+
         Map<String, Object> parametros = new HashMap<String, Object>();
+        parametros.put("imagem", fisImagem);
         parametros.put("subReportEnderecos", subRelatorioEndereco);
         parametros.put("subReportTelefones", subRelatorioTelefone);
 
