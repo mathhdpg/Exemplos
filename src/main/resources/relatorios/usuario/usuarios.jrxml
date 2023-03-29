@@ -3,7 +3,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1058013d-a37d-4073-90d1-eec9043ce429">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="Usuarios" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="subReportEnderecos" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="subReportTelefones" class="net.sf.jasperreports.engine.JasperReport"/>
+	
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -62,14 +64,14 @@
 					<printWhenExpression><![CDATA[$F{enderecos} != null && $F{enderecos}.size() > 0]]></printWhenExpression>
 				</reportElement>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{enderecos})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "usuario_enderecos.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{subReportEnderecos}]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement positionType="Float" x="0" y="58" width="555" height="30" isRemoveLineWhenBlank="true" uuid="226764a8-aa21-4c01-90f5-796102feae85">
 					<printWhenExpression><![CDATA[$F{telefones} != null && $F{telefones}.size() > 0]]></printWhenExpression>
 				</reportElement>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{telefones})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "usuario_telefone.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{subReportTelefones}]]></subreportExpression>
 			</subreport>
 			<textField>
 				<reportElement mode="Transparent" x="271" y="10" width="135" height="20" backcolor="#CCCCCC" uuid="53be3cd4-6b1a-4e83-a216-1bd7c0eb0368"/>

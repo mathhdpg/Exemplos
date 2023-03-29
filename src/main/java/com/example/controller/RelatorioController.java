@@ -10,6 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,12 +29,27 @@ import com.example.util.ReportUtils;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 @RestController
 @RequestMapping("/api/relatorio")
 public class RelatorioController {
 
     private UsuarioRepository repository;
+
+    // @Value("classpath:relatorios/usuario/usuarios.jrxml")
+    // private Resource resourceUsuarios;
+    
+    // @Value("classpath:relatorios/usuario/usuario_enderecos.jrxml")
+    // private Resource resourceEnderecos;
+
+    // @Value("classpath:relatorios/usuario/usuario_telefone.jrxml")
+    // private Resource resourceTelefones;
 
     public RelatorioController(UsuarioRepository repository) {
         this.repository = repository;
@@ -64,7 +83,7 @@ public class RelatorioController {
 
             ByteArrayResource resource = new ByteArrayResource(bytes);
             return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentType(MediaType.APPLICATION_PDF)
                     .body(resource);
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,30 +95,22 @@ public class RelatorioController {
         List<Usuario> usuarios = repository.findAll();
         usuarios.forEach(u -> u.setTipoPessoa(EnumTipoPessoa.FISICA));
 
-        // caso seja necessário, pode compilar os jrxml
-        compilaRelatorios();
-        File jasper = ReportUtils.getFileFromResource("relatorios/usuario/usuarios.jasper");
-        InputStream fis = (InputStream) new FileInputStream(jasper);
+        ClassPathResource resourceUsuarios = new ClassPathResource("relatorios/usuario/usuarios.jrxml");
+        ClassPathResource resourceEnderecos = new ClassPathResource("relatorios/usuario/usuario_enderecos.jrxml");
+        ClassPathResource resourceTelefones = new ClassPathResource("relatorios/usuario/usuario_telefone.jrxml");
 
-        String pathSubRelatorio = jasper.getParent() + "\\";
-
+        JasperReport relatorio = JasperCompileManager.compileReport(resourceUsuarios.getInputStream());
+        JasperReport subRelatorioEndereco = JasperCompileManager.compileReport(resourceEnderecos.getInputStream());
+        JasperReport subRelatorioTelefone = JasperCompileManager.compileReport(resourceTelefones.getInputStream());
+        
         Map<String, Object> parametros = new HashMap<String, Object>();
-        parametros.put("SUBREPORT_DIR", pathSubRelatorio);
+        parametros.put("subReportEnderecos", subRelatorioEndereco);
+        parametros.put("subReportTelefones", subRelatorioTelefone);
 
-        byte[] bytes = ReportUtils.createPDFReport(fis, parametros, usuarios);
-        return bytes;
+        JasperPrint fillReport = JasperFillManager.fillReport(relatorio, parametros, new JRBeanCollectionDataSource(usuarios));
+        byte[] exportReportToPdf = JasperExportManager.exportReportToPdf(fillReport);
+
+        return exportReportToPdf;
     }
 
-    private void compilaRelatorios() throws FileNotFoundException, JRException {
-        File reportXml = ReportUtils.getFileFromResource("relatorios/usuario/usuarios.jrxml");
-        File subReportEnderecoXml = ReportUtils.getFileFromResource("relatorios/usuario/usuario_enderecos.jrxml");
-        File subReportTelefoneXml = ReportUtils.getFileFromResource("relatorios/usuario/usuario_telefone.jrxml");
-
-        JasperCompileManager.compileReportToFile(reportXml.getAbsolutePath(),
-                reportXml.getAbsolutePath().replace(".jrxml", ".jasper"));
-        JasperCompileManager.compileReportToFile(subReportEnderecoXml.getAbsolutePath(),
-                subReportEnderecoXml.getAbsolutePath().replace(".jrxml", ".jasper"));
-        JasperCompileManager.compileReportToFile(subReportTelefoneXml.getAbsolutePath(),
-                subReportTelefoneXml.getAbsolutePath().replace(".jrxml", ".jasper"));
-    }
 }
