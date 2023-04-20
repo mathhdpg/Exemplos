@@ -1,5 +1,6 @@
 package com.example.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,10 @@ public class CustomRepository extends GenericDao {
     
     public Page<Map<String, Object>> listaGenerica(String sql, Pageable pageable) {
         return this.executeNativeQuery(sql, pageable);
+    }
+    
+    public List<Map<String, Object>> listaGenerica(String sql) {
+        return this.executeNativeQuery(sql);
     }
     
 }
