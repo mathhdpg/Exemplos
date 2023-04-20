@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,7 +54,7 @@ public class GenericDao {
             Object[] results = result.toArray();
             List<TupleElement<?>> elements = result.getElements();
 
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             for (int i = 0; i < results.length; i++) {
                 String alias = elements.get(i).getAlias();
                 String[] arrayAlias = alias.split("\\.");
@@ -64,7 +64,7 @@ public class GenericDao {
                     if (coluna.containsKey(arrayAlias[j])) {
                         coluna = (Map<String, Object>) coluna.get(arrayAlias[j]);
                     } else {
-                        Map<String, Object> novaColuna = new HashMap<String, Object>();
+                        Map<String, Object> novaColuna = new LinkedHashMap<String, Object>();
                         coluna.put(arrayAlias[j], novaColuna);
                         coluna = novaColuna;
                     }
